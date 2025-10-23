@@ -16,7 +16,7 @@ export default function Login() {
     const success = await login(email, password);
 
     if (success) {
-      navigate('/');
+      navigate('/dashboard');
     }
 
     setLoading(false);
@@ -26,7 +26,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-primary-600">Smart Budget Tracker</h2>
+          <h2 className="text-3xl font-bold text-primary-600">budzz</h2>
           <p className="mt-2 text-gray-600 dark:text-gray-400">Sign in to your account</p>
         </div>
 
@@ -35,6 +35,7 @@ export default function Login() {
             <label className="block text-sm font-medium mb-2">Email</label>
             <input
               type="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="input"
@@ -46,6 +47,7 @@ export default function Login() {
             <label className="block text-sm font-medium mb-2">Password</label>
             <input
               type="password"
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="input"

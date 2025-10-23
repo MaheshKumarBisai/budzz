@@ -8,14 +8,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-        }
-      }
+        primary: 'var(--primary-color)',
+        secondary: 'var(--secondary-color)',
+        success: 'var(--success-color)',
+        danger: 'var(--danger-color)',
+        warning: 'var(--warning-color)',
+        info: 'var(--info-color)',
+      },
     },
   },
   plugins: [],

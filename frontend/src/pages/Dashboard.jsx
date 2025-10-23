@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { Plus, TrendingUp, TrendingDown, DollarSign, AlertCircle } from 'lucide-react';
-import { reportAPI, expenseAPI, incomeAPI } from '../services/api';
+import { reportAPI, expenseAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
 export default function Dashboard() {
@@ -35,9 +35,11 @@ export default function Dashboard() {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-    </div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   const COLORS = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
@@ -46,7 +48,7 @@ export default function Dashboard() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        <Link to="/transactions/add" className="btn-primary flex items-center space-x-2">
+        <Link to="/dashboard/transactions/add" className="btn-primary flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg">
           <Plus size={20} />
           <span>Add Transaction</span>
         </Link>
@@ -54,7 +56,7 @@ export default function Dashboard() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="card">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Income</p>
@@ -66,7 +68,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="card">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Expenses</p>
@@ -78,22 +80,22 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="card">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Net Savings</p>
-              <p className="text-2xl font-bold text-primary-600">
+              <p className="text-2xl font-bold text-blue-500">
                 ${parseFloat(summary?.net_savings || 0).toFixed(2)}
               </p>
             </div>
-            <DollarSign className="text-primary-600" size={32} />
+            <DollarSign className="text-blue-500" size={32} />
           </div>
         </div>
       </div>
 
       {/* Budget Alert */}
       {summary?.budget_used_percentage >= 80 && (
-        <div className="card bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800">
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800 p-4 rounded-lg shadow">
           <div className="flex items-center space-x-3">
             <AlertCircle className="text-yellow-600" size={24} />
             <div>
@@ -111,7 +113,7 @@ export default function Dashboard() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Pie Chart */}
-        <div className="card">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Expenses by Category</h2>
           {categories.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
@@ -139,7 +141,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Transactions */}
-        <div className="card">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <h2 className="text-xl font-semibold mb-4">Recent Transactions</h2>
           <div className="space-y-3">
             {recentTransactions.length > 0 ? (
@@ -158,7 +160,7 @@ export default function Dashboard() {
               <p className="text-center text-gray-500 py-8">No transactions yet</p>
             )}
           </div>
-          <Link to="/transactions" className="block text-center text-primary-600 hover:underline mt-4">
+          <Link to="/dashboard/transactions" className="block text-center text-blue-500 hover:underline mt-4">
             View all transactions
           </Link>
         </div>
