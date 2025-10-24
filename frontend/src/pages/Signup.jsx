@@ -6,32 +6,49 @@ export default function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
   const navigate = useNavigate();
 
+  const validate = () => {
+    const newErrors = {};
+    if (!name) newErrors.name = 'Name is required';
+    if (!email) newErrors.email = 'Email is required';
+    if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Email is invalid';
+    if (!password) newErrors.password = 'Password is required';
+    if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    return newErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    const success = await signup(name, email, password);
-
-    if (success) {
-      navigate('/dashboard');
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
     }
 
+    setLoading(true);
+    const { success, error } = await signup(name, email, password);
+    if (success) {
+      navigate('/dashboard');
+    } else {
+      setErrors({ form: error });
+    }
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-primary-600">budzz</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Start tracking your budget</p>
+          <h2 className="text-3xl font-bold text-text-primary">budzz</h2>
+          <p className="mt-2 text-text-secondary">Create your account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="card space-y-6">
+        <form onSubmit={handleSubmit} noValidate className="bg-background-card p-8 rounded-lg shadow-md space-y-6">
+          {errors.form && <p className="text-red-500 text-sm">{errors.form}</p>}
           <div>
             <label className="block text-sm font-medium mb-2">Name</label>
             <input
@@ -39,9 +56,9 @@ export default function Signup() {
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="input"
-              required
+              className={`w-full px-4 py-2 border rounded-md ${errors.name ? 'border-red-500' : 'border-border-color'}`}
             />
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
@@ -51,9 +68,9 @@ export default function Signup() {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="input"
-              required
+              className={`w-full px-4 py-2 border rounded-md ${errors.email ? 'border-red-500' : 'border-border-color'}`}
             />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
           <div>
@@ -63,24 +80,22 @@ export default function Signup() {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="input"
-              minLength={6}
-              required
+              className={`w-full px-4 py-2 border rounded-md ${errors.password ? 'border-red-500' : 'border-border-color'}`}
             />
-            <p className="text-xs text-gray-500 mt-1">At least 6 characters</p>
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-primary"
+            className="w-full bg-primary text-background py-3 rounded-md hover:bg-gray-800 transition-colors"
           >
             {loading ? 'Creating account...' : 'Sign Up'}
           </button>
 
-          <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-center text-sm text-text-secondary">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary-600 hover:underline">
+            <Link to="/login" className="text-primary hover:underline">
               Sign in
             </Link>
           </p>

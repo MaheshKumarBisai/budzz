@@ -1,14 +1,8 @@
 :root {
-  --primary-background: #1a1a1a; /* Dark charcoal gray */
-  --card-background: #2a2a2a;    /* Lighter dark gray */
-  --accent-color: #32cd32;       /* Vibrant lime green */
-  --text-primary: #ffffff;       /* White */
-  --text-secondary: #b0b0b0;    /* Light gray */
-  --border-color: #444444;
-}
-
-/* Forcing dark mode as the default */
-html {
-  background-color: var(--primary-background);
-  color: var(--text-primary);
+  --primary-background: #FFFDF2; /* Cream */
+  --card-background: #FFFFFF;    /* White */
+  --accent-color: #000000;       /* Black */
+  --text-primary: #000000;       /* Black */
+  --text-secondary: #555555;    /* Dark Gray */
+  --border-color: #DDDDDD;
 }

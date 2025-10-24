@@ -13,7 +13,7 @@ export default function Layout() {
   };
 
   const navItems = [
-    { path: '/', icon: Home, label: 'Dashboard' },
+    { path: '/dashboard', icon: Home, label: 'Dashboard' },
     { path: '/transactions', icon: DollarSign, label: 'Transactions' },
     { path: '/reports', icon: BarChart3, label: 'Reports' },
     { path: '/settings', icon: Settings, label: 'Settings' },
@@ -37,8 +37,8 @@ export default function Layout() {
                 to={item.path}
                 className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                   isActive
-                    ? 'bg-primary text-background-card'
-                    : 'text-text-secondary hover:bg-gray-700'
+                    ? 'bg-primary text-background'
+                    : 'text-text-secondary hover:bg-gray-200'
                 }`}
               >
                 <Icon size={20} />
