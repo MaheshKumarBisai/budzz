@@ -3,16 +3,14 @@ import { Link } from 'react-router-dom';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold text-gray-800">budzz</h1>
-        <p className="mt-4 text-lg text-gray-600">Keep Track, Assess, and Enhance Your Financial Performance</p>
-      </div>
+    <div className="min-h-screen flex flex-col justify-center items-center text-center">
+      <h1 className="text-6xl font-bold text-text-primary">budzz</h1>
+      <p className="mt-4 text-lg text-text-secondary">A modern budget tracker for a modern world.</p>
       <div className="mt-8 flex space-x-4">
-        <Link to="/login" className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        <Link to="/login" className="px-6 py-3 bg-primary text-background-card rounded-md hover:bg-green-400 transition-colors">
           Login
         </Link>
-        <Link to="/signup" className="px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors">
+        <Link to="/signup" className="px-6 py-3 border border-text-secondary text-text-secondary rounded-md hover:bg-text-secondary hover:text-background-card transition-colors">
           Signup
         </Link>
       </div>

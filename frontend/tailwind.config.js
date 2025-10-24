@@ -4,16 +4,24 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
+  darkMode: 'class', // Keeping class-based dark mode for potential future flexibility
   theme: {
     extend: {
       colors: {
-        primary: 'var(--primary-color)',
-        secondary: 'var(--secondary-color)',
-        success: 'var(--success-color)',
-        danger: 'var(--danger-color)',
-        warning: 'var(--warning-color)',
-        info: 'var(--info-color)',
+        primary: {
+          DEFAULT: 'var(--accent-color)',
+        },
+        background: {
+          DEFAULT: 'var(--primary-background)',
+          card: 'var(--card-background)',
+        },
+        text: {
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
       },
     },
   },
