@@ -1,11 +1,9 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useTheme } from '../contexts/ThemeContext';
-import { Home, DollarSign, BarChart3, Settings, LogOut, Sun, Moon } from 'lucide-react';
+import { Home, DollarSign, BarChart3, Settings, LogOut } from 'lucide-react';
 
 export default function Layout() {
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -15,77 +13,62 @@ export default function Layout() {
   };
 
   const navItems = [
-    { path: '/', icon: Home, label: 'Dashboard' },
+    { path: '/dashboard', icon: Home, label: 'Dashboard' },
     { path: '/transactions', icon: DollarSign, label: 'Transactions' },
     { path: '/reports', icon: BarChart3, label: 'Reports' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-bold text-primary-600">Smart Budget Tracker</h1>
-            </div>
+    <div className="min-h-screen flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-background-card flex flex-col">
+        <div className="p-4 border-b border-border-color">
+          <h1 className="text-2xl font-bold text-text-primary">budzz</h1>
+        </div>
+        <nav className="flex-1 p-4 space-y-2">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
 
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600 dark:text-gray-300">
-                {user?.name}
-              </span>
-
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                  isActive
+                    ? 'bg-primary text-background'
+                    : 'text-text-secondary hover:bg-gray-200'
+                }`}
               >
-                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-              </button>
-
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-2 px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg"
-              >
-                <LogOut size={20} />
-                <span>Logout</span>
-              </button>
+                <Icon size={20} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+        <div className="p-4 border-t border-border-color">
+          <div className="flex items-center space-x-4">
+            <img src="https://i.pravatar.cc/40" alt="User Avatar" className="w-10 h-10 rounded-full" />
+            <div>
+              <p className="font-semibold text-text-primary">{user?.name}</p>
+              <p className="text-sm text-text-secondary">{user?.email}</p>
             </div>
           </div>
+          <button
+            onClick={handleLogout}
+            className="w-full mt-4 flex items-center justify-center space-x-2 px-4 py-2 text-red-500 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+          >
+            <LogOut size={20} />
+            <span>Logout</span>
+          </button>
         </div>
-      </header>
+      </aside>
 
-      <div className="flex flex-1">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
-          <nav className="p-4 space-y-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
-                >
-                  <Icon size={20} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        </aside>
-
-        {/* Main Content */}
-        <main className="flex-1 p-8 overflow-auto">
-          <Outlet />
-        </main>
-      </div>
+      {/* Main Content */}
+      <main className="flex-1 p-8 overflow-auto">
+        <Outlet />
+      </main>
     </div>
   );
 }

@@ -1,27 +1,51 @@
+@import './theme.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100;
-  }
+body {
+  font-family: 'Inter', sans-serif; /* Using Inter as a modern sans-serif font */
+  background-color: var(--primary-background);
+  color: var(--text-primary);
 }
 
-@layer components {
-  .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors;
-  }
+.card {
+  background-color: var(--card-background);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 font-medium py-2 px-4 rounded-lg transition-colors;
-  }
+.card:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
 
-  .card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700;
-  }
+.btn-primary {
+  background-color: var(--accent-color);
+  color: var(--primary-background);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
 
-  .input {
-    @apply w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100;
-  }
+.btn-primary:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary:hover {
+  background-color: var(--text-primary);
+  color: var(--primary-background);
 }

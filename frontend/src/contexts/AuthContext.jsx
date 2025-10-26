@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { authAPI, userAPI } from '../services/api';
-import toast from 'react-hot-toast';
 
 const AuthContext = createContext(null);
 
@@ -35,11 +34,9 @@ export function AuthProvider({ children }) {
       localStorage.setItem('token', token);
       setUser(user);
       setIsAuthenticated(true);
-      toast.success('Login successful!');
-      return true;
+      return { success: true };
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed');
-      return false;
+      return { success: false, error: error.response?.data?.message || 'Login failed' };
     }
   };
 
@@ -50,11 +47,9 @@ export function AuthProvider({ children }) {
       localStorage.setItem('token', token);
       setUser(user);
       setIsAuthenticated(true);
-      toast.success('Account created successfully!');
-      return true;
+      return { success: true };
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Signup failed');
-      return false;
+      return { success: false, error: error.response?.data?.message || 'Signup failed' };
     }
   };
 
@@ -62,7 +57,6 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('token');
     setUser(null);
     setIsAuthenticated(false);
-    toast.success('Logged out successfully');
   };
 
   return (
