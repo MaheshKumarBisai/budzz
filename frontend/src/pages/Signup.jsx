@@ -6,6 +6,7 @@ export default function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
@@ -18,6 +19,7 @@ export default function Signup() {
     if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Email is invalid';
     if (!password) newErrors.password = 'Password is required';
     if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    if (password !== confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
     return newErrors;
   };
 
@@ -40,60 +42,76 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background dark:bg-dark-background px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-text-primary">budzz</h2>
-          <p className="mt-2 text-text-secondary">Create your account</p>
+          <h2 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">budzz</h2>
+          <p className="mt-2 text-text-secondary dark:text-dark-text-secondary">Create your account</p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="bg-background-card p-8 rounded-lg shadow-md space-y-6">
+        <form onSubmit={handleSubmit} noValidate className="bg-card dark:bg-dark-card p-8 rounded-lg shadow-md space-y-6">
           {errors.form && <p className="text-red-500 text-sm">{errors.form}</p>}
           <div>
-            <label className="block text-sm font-medium mb-2">Name</label>
+            <label htmlFor="name" className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Name</label>
             <input
+              id="name"
               type="text"
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-md ${errors.name ? 'border-red-500' : 'border-border-color'}`}
+              className={`w-full px-4 py-2 border rounded-md bg-transparent ${errors.name ? 'border-red-500' : 'border-border dark:border-dark-border'}`}
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Email</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-md ${errors.email ? 'border-red-500' : 'border-border-color'}`}
+              className={`w-full px-4 py-2 border rounded-md bg-transparent ${errors.email ? 'border-red-500' : 'border-border dark:border-dark-border'}`}
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Password</label>
             <input
+              id="password"
               type="password"
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full px-4 py-2 border rounded-md ${errors.password ? 'border-red-500' : 'border-border-color'}`}
+              className={`w-full px-4 py-2 border rounded-md bg-transparent ${errors.password ? 'border-red-500' : 'border-border dark:border-dark-border'}`}
             />
             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Confirm Password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={`w-full px-4 py-2 border rounded-md bg-transparent ${errors.confirmPassword ? 'border-red-500' : 'border-border dark:border-dark-border'}`}
+            />
+            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-background py-3 rounded-md hover:bg-gray-800 transition-colors"
+            className="w-full bg-primary text-white py-3 rounded-md hover:bg-opacity-90 transition-colors"
           >
             {loading ? 'Creating account...' : 'Sign Up'}
           </button>
 
-          <p className="text-center text-sm text-text-secondary">
+          <p className="text-center text-sm text-text-secondary dark:text-dark-text-secondary">
             Already have an account?{' '}
             <Link to="/login" className="text-primary hover:underline">
               Sign in

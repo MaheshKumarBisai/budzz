@@ -89,10 +89,10 @@ export default function AddTransaction() {
               <button
                 type="button"
                 onClick={() => { setType('expense'); setCategoryId(''); }}
-                className={`flex-1 py-3 rounded-lg font-medium ${
+                className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
                   type === 'expense'
-                    ? 'bg-red-100 text-red-600 dark:bg-red-900/20'
-                    : 'bg-gray-100 text-gray-600 dark:bg-gray-700'
+                    ? 'bg-lime-500 text-white'
+                    : 'bg-transparent border border-lime-500 text-lime-500 hover:bg-lime-500 hover:text-white'
                 }`}
               >
                 Expense
@@ -100,10 +100,10 @@ export default function AddTransaction() {
               <button
                 type="button"
                 onClick={() => { setType('income'); setCategoryId(''); }}
-                className={`flex-1 py-3 rounded-lg font-medium ${
+                className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
                   type === 'income'
-                    ? 'bg-green-100 text-green-600 dark:bg-green-900/20'
-                    : 'bg-gray-100 text-gray-600 dark:bg-gray-700'
+                    ? 'bg-lime-500 text-white'
+                    : 'bg-transparent border border-lime-500 text-lime-500 hover:bg-lime-500 hover:text-white'
                 }`}
               >
                 Income
@@ -118,7 +118,7 @@ export default function AddTransaction() {
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="input"
+            className="input border border-gray-600 rounded-md"
             required
           >
             <option value="">Select category</option>
@@ -138,7 +138,7 @@ export default function AddTransaction() {
             step="0.01"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="input"
+            className="input border border-gray-600 rounded-md"
             placeholder="0.00"
             required
           />
@@ -150,7 +150,7 @@ export default function AddTransaction() {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="input"
+            className="input border border-gray-600 rounded-md"
             rows="3"
             placeholder="Add notes..."
           />
@@ -162,7 +162,7 @@ export default function AddTransaction() {
           <select
             value={paymentMode}
             onChange={(e) => setPaymentMode(e.target.value)}
-            className="input"
+            className="input border border-gray-600 rounded-md"
           >
             <option>Cash</option>
             <option>Credit Card</option>
@@ -179,7 +179,7 @@ export default function AddTransaction() {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="input"
+            className="input border border-gray-600 rounded-md"
             required
           />
         </div>

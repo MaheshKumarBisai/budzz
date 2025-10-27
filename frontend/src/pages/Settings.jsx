@@ -1,45 +1,39 @@
 import { useState, useEffect } from 'react';
-import { userAPI, settingsAPI } from '../services/api';
+import { userAPI } from '../services/api';
 import { useTheme } from '../contexts/ThemeContext';
+import { useSettings } from '../contexts/SettingsContext';
 import toast from 'react-hot-toast';
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
+  const { settings, updateSettings } = useSettings();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [currency, setCurrency] = useState('USD');
-  const [budgetLimit, setBudgetLimit] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchData();
+    const fetchProfile = async () => {
+      try {
+        const response = await userAPI.getProfile();
+        const user = response.data.data.user;
+        setName(user.name);
+        setEmail(user.email);
+      } catch (error) {
+        toast.error('Failed to load profile');
+      }
+    };
+
+    fetchProfile();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const [profileRes, settingsRes] = await Promise.all([
-        userAPI.getProfile(),
-        settingsAPI.getSettings(),
-      ]);
-
-      const user = profileRes.data.data.user;
-      const settings = settingsRes.data.data.settings;
-
-      setName(user.name);
-      setEmail(user.email);
-      setCurrency(settings.currency || 'USD');
-      setBudgetLimit(settings.budget_limit || '');
-    } catch (error) {
-      toast.error('Failed to load settings');
-    }
-  };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      await userAPI.updateProfile({ name, email });
+      await userAPI.updateProfile({ name, email, current_password: currentPassword, new_password: newPassword });
       toast.success('Profile updated');
     } catch (error) {
       toast.error('Failed to update profile');
@@ -53,10 +47,9 @@ export default function Settings() {
     setLoading(true);
 
     try {
-      await settingsAPI.updateSettings({
-        currency,
-        budget_limit: parseFloat(budgetLimit) || 0,
-        theme,
+      await updateSettings({
+        ...settings,
+        budget_limit: parseFloat(settings.budget_limit) || 0,
       });
       toast.success('Settings updated');
     } catch (error) {
@@ -80,7 +73,7 @@ export default function Settings() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="input"
+              className="input border border-gray-600"
               required
             />
           </div>
@@ -91,8 +84,26 @@ export default function Settings() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="input"
+              className="input border border-gray-600"
               required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Current Password</label>
+            <input
+              type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              className="input border border-gray-600"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">New Password</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="input border border-gray-600"
             />
           </div>
 
@@ -113,9 +124,9 @@ export default function Settings() {
           <div>
             <label className="block text-sm font-medium mb-2">Currency</label>
             <select
-              value={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              className="input"
+              value={settings.currency}
+              onChange={(e) => updateSettings({ ...settings, currency: e.target.value })}
+              className="input border border-gray-600"
             >
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
@@ -132,9 +143,9 @@ export default function Settings() {
             <input
               type="number"
               step="0.01"
-              value={budgetLimit}
-              onChange={(e) => setBudgetLimit(e.target.value)}
-              className="input"
+              value={settings.budget_limit}
+              onChange={(e) => updateSettings({ ...settings, budget_limit: e.target.value })}
+              className="input border border-gray-600"
               placeholder="0.00"
             />
             <p className="text-xs text-gray-500 mt-1">
