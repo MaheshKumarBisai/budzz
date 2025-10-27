@@ -24,7 +24,9 @@ export default function Layout() {
       {/* Sidebar */}
       <aside className="w-64 bg-background-card flex flex-col">
         <div className="p-4 border-b border-border-color">
-          <h1 className="text-2xl font-bold text-text-primary">budzz</h1>
+          <Link to="/dashboard">
+            <h1 className="text-2xl font-bold text-text-primary">budzz</h1>
+          </Link>
         </div>
         <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => {

@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { userAPI, settingsAPI } from '../services/api';
 import { useTheme } from '../contexts/ThemeContext';
+import { useCurrency } from '../contexts/CurrencyContext';
 import toast from 'react-hot-toast';
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
+  const { currency, updateCurrency } = useCurrency();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [currency, setCurrency] = useState('USD');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [budgetLimit, setBudgetLimit] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +30,7 @@ export default function Settings() {
 
       setName(user.name);
       setEmail(user.email);
-      setCurrency(settings.currency || 'USD');
+      updateCurrency(settings.currency || 'USD');
       setBudgetLimit(settings.budget_limit || '');
     } catch (error) {
       toast.error('Failed to load settings');
@@ -39,7 +42,7 @@ export default function Settings() {
     setLoading(true);
 
     try {
-      await userAPI.updateProfile({ name, email });
+      await userAPI.updateProfile({ name, email, current_password: currentPassword, new_password: newPassword });
       toast.success('Profile updated');
     } catch (error) {
       toast.error('Failed to update profile');
@@ -58,6 +61,7 @@ export default function Settings() {
         budget_limit: parseFloat(budgetLimit) || 0,
         theme,
       });
+      updateCurrency(currency);
       toast.success('Settings updated');
     } catch (error) {
       toast.error('Failed to update settings');
@@ -80,7 +84,7 @@ export default function Settings() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="input"
+              className="input border border-gray-600"
               required
             />
           </div>
@@ -91,8 +95,26 @@ export default function Settings() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="input"
+              className="input border border-gray-600"
               required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">Current Password</label>
+            <input
+              type="password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              className="input border border-gray-600"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-2">New Password</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              className="input border border-gray-600"
             />
           </div>
 
@@ -114,8 +136,8 @@ export default function Settings() {
             <label className="block text-sm font-medium mb-2">Currency</label>
             <select
               value={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              className="input"
+              onChange={(e) => updateCurrency(e.target.value)}
+              className="input border border-gray-600"
             >
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
@@ -134,7 +156,7 @@ export default function Settings() {
               step="0.01"
               value={budgetLimit}
               onChange={(e) => setBudgetLimit(e.target.value)}
-              className="input"
+              className="input border border-gray-600"
               placeholder="0.00"
             />
             <p className="text-xs text-gray-500 mt-1">

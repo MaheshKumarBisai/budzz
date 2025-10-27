@@ -2,8 +2,9 @@
 > budget-tracker-frontend@1.0.0 dev
 > vite
 
+Re-optimizing dependencies because lockfile has changed
 
-  VITE v5.4.21  ready in 463 ms
+  VITE v5.4.21  ready in 809 ms
 
   ➜  Local:   http://localhost:3000/
   ➜  Network: use --host to expose
