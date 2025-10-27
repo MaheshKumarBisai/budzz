@@ -2,15 +2,15 @@ import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { expenseAPI, incomeAPI, settingsAPI } from '../services/api';
 import RecentTransactions from '../components/RecentTransactions';
-import RemainingBudget from '../components/RemainingBudget';
+import DashboardSummary from '../components/DashboardSummary';
 
 const Dashboard = () => {
   const { user } = useAuth();
   const [transactions, setTransactions] = React.useState([]);
-  const [budget, setBudget] = React.useState({
+  const [summary, setSummary] = React.useState({
     total_income: 0,
     total_expenses: 0,
-    budget_limit: 0,
+    remaining_budget: 0,
   });
 
   React.useEffect(() => {
@@ -28,11 +28,13 @@ const Dashboard = () => {
 
         const totalIncome = incomes.data.data.incomes.reduce((acc, curr) => acc + curr.amount, 0);
         const totalExpenses = expenses.data.data.expenses.reduce((acc, curr) => acc + curr.amount, 0);
+        const budgetLimit = settings.data.data.settings.budget_limit || 0;
+        const remainingBudget = budgetLimit - totalExpenses;
 
-        setBudget({
+        setSummary({
           total_income: totalIncome,
           total_expenses: totalExpenses,
-          budget_limit: settings.data.data.settings.budget_limit,
+          remaining_budget: remainingBudget,
         });
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -43,28 +45,23 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="p-4 md:p-8 text-white">
+    <div className="p-4 md:p-8">
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold">
+        <h1 className="text-3xl md:text-4xl font-bold text-text-primary dark:text-dark-text-primary">
           Welcome, {user ? user.name : 'Guest'}!
         </h1>
-        <p className="text-lg text-light-gray mt-1">
+        <p className="text-lg text-text-secondary dark:text-dark-text-secondary mt-1">
           Here’s a snapshot of your financial health.
         </p>
       </header>
 
+      <DashboardSummary summary={summary} />
+
       {transactions.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <RecentTransactions transactions={transactions} />
-          </div>
-          <div>
-            <RemainingBudget budget={budget} />
-          </div>
-        </div>
+        <RecentTransactions transactions={transactions.slice(0, 5)} />
       ) : (
-        <div className="text-center py-16">
-          <p className="text-xl text-light-gray">
+        <div className="text-center py-16 bg-card dark:bg-dark-card rounded-lg">
+          <p className="text-xl text-text-secondary dark:text-dark-text-secondary">
             No transactions yet. Add one to get started!
           </p>
         </div>

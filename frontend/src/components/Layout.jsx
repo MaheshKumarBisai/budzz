@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Home, DollarSign, BarChart3, Settings, LogOut } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
+import Avatar from './Avatar';
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -54,7 +55,7 @@ export default function Layout() {
         </nav>
         <div className="p-4 border-t border-border dark:border-dark-border">
           <div className="flex items-center space-x-4">
-            <img src="https://i.pravatar.cc/40" alt="User Avatar" className="w-10 h-10 rounded-full" />
+            <Avatar name={user?.name} />
             <div>
               <p className="font-semibold text-text-primary dark:text-dark-text-primary">{user?.name}</p>
               <p className="text-sm text-text-secondary dark:text-dark-text-secondary">{user?.email}</p>
