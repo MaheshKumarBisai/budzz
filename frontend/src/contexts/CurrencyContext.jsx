@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { settingsAPI } from './services/api';
+import { settingsAPI } from '../services/api';
 
 const CurrencyContext = createContext(null);
 
