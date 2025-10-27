@@ -118,7 +118,7 @@ export default function AddTransaction() {
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="input border border-gray-600"
+            className="input border border-gray-600 rounded-md"
             required
           >
             <option value="">Select category</option>
@@ -138,7 +138,7 @@ export default function AddTransaction() {
             step="0.01"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="input border border-gray-600"
+            className="input border border-gray-600 rounded-md"
             placeholder="0.00"
             required
           />
@@ -150,7 +150,7 @@ export default function AddTransaction() {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="input border border-gray-600"
+            className="input border border-gray-600 rounded-md"
             rows="3"
             placeholder="Add notes..."
           />
@@ -162,7 +162,7 @@ export default function AddTransaction() {
           <select
             value={paymentMode}
             onChange={(e) => setPaymentMode(e.target.value)}
-            className="input border border-gray-600"
+            className="input border border-gray-600 rounded-md"
           >
             <option>Cash</option>
             <option>Credit Card</option>
@@ -179,7 +179,7 @@ export default function AddTransaction() {
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="input border border-gray-600"
+            className="input border border-gray-600 rounded-md"
             required
           />
         </div>

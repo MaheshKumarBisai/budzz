@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaDollarSign } from 'react-icons/fa';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { useSettings } from '../contexts/SettingsContext';
 
 const currencySymbols = {
   USD: '$',
@@ -11,8 +11,8 @@ const currencySymbols = {
 };
 
 const RemainingBudget = ({ budget }) => {
-  const { currency } = useCurrency();
-  const symbol = currencySymbols[currency] || '$';
+  const { settings } = useSettings();
+  const symbol = currencySymbols[settings.currency] || '$';
 
   const { total_income, total_expenses, budget_limit } = budget;
   const remaining = total_income - total_expenses;

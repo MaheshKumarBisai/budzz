@@ -1,41 +1,32 @@
 import { useState, useEffect } from 'react';
-import { userAPI, settingsAPI } from '../services/api';
+import { userAPI } from '../services/api';
 import { useTheme } from '../contexts/ThemeContext';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { useSettings } from '../contexts/SettingsContext';
 import toast from 'react-hot-toast';
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
-  const { currency, updateCurrency } = useCurrency();
+  const { settings, updateSettings } = useSettings();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [budgetLimit, setBudgetLimit] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchData();
+    const fetchProfile = async () => {
+      try {
+        const response = await userAPI.getProfile();
+        const user = response.data.data.user;
+        setName(user.name);
+        setEmail(user.email);
+      } catch (error) {
+        toast.error('Failed to load profile');
+      }
+    };
+
+    fetchProfile();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const [profileRes, settingsRes] = await Promise.all([
-        userAPI.getProfile(),
-        settingsAPI.getSettings(),
-      ]);
-
-      const user = profileRes.data.data.user;
-      const settings = settingsRes.data.data.settings;
-
-      setName(user.name);
-      setEmail(user.email);
-      updateCurrency(settings.currency || 'USD');
-      setBudgetLimit(settings.budget_limit || '');
-    } catch (error) {
-      toast.error('Failed to load settings');
-    }
-  };
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
@@ -56,12 +47,10 @@ export default function Settings() {
     setLoading(true);
 
     try {
-      await settingsAPI.updateSettings({
-        currency,
-        budget_limit: parseFloat(budgetLimit) || 0,
-        theme,
+      await updateSettings({
+        ...settings,
+        budget_limit: parseFloat(settings.budget_limit) || 0,
       });
-      updateCurrency(currency);
       toast.success('Settings updated');
     } catch (error) {
       toast.error('Failed to update settings');
@@ -135,8 +124,8 @@ export default function Settings() {
           <div>
             <label className="block text-sm font-medium mb-2">Currency</label>
             <select
-              value={currency}
-              onChange={(e) => updateCurrency(e.target.value)}
+              value={settings.currency}
+              onChange={(e) => updateSettings({ ...settings, currency: e.target.value })}
               className="input border border-gray-600"
             >
               <option value="USD">USD ($)</option>
@@ -154,8 +143,8 @@ export default function Settings() {
             <input
               type="number"
               step="0.01"
-              value={budgetLimit}
-              onChange={(e) => setBudgetLimit(e.target.value)}
+              value={settings.budget_limit}
+              onChange={(e) => updateSettings({ ...settings, budget_limit: e.target.value })}
               className="input border border-gray-600"
               placeholder="0.00"
             />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { useSettings } from '../contexts/SettingsContext';
 
 const currencySymbols = {
   USD: '$',
@@ -12,8 +12,8 @@ const currencySymbols = {
 };
 
 const RecentTransactions = ({ transactions }) => {
-  const { currency } = useCurrency();
-  const symbol = currencySymbols[currency] || '$';
+  const { settings } = useSettings();
+  const symbol = currencySymbols[settings.currency] || '$';
 
   return (
     <div className="bg-dark-gray rounded-lg p-4 md:p-6">

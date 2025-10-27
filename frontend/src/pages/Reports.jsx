@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import Papa from 'papaparse';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { useSettings } from '../contexts/SettingsContext';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF1919'];
 
@@ -19,8 +19,8 @@ const currencySymbols = {
 };
 
 export default function Reports() {
-  const { currency } = useCurrency();
-  const symbol = currencySymbols[currency] || '$';
+  const { settings } = useSettings();
+  const symbol = currencySymbols[settings.currency] || '$';
 
   const [monthlyData, setMonthlyData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -157,32 +157,34 @@ export default function Reports() {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Income</p>
-          <p className="text-2xl font-bold text-green-600">
-            {symbol}{parseFloat(monthlyData?.summary?.total_income || 0).toFixed(2)}
-          </p>
+      {monthlyData && monthlyData.summary && (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="card">
+            <p className="text-sm text-gray-600 dark:text-gray-400">Total Income</p>
+            <p className="text-2xl font-bold text-green-600">
+              {symbol}{parseFloat(monthlyData.summary.total_income || 0).toFixed(2)}
+            </p>
+          </div>
+          <div className="card">
+            <p className="text-sm text-gray-600 dark:text-gray-400">Total Expenses</p>
+            <p className="text-2xl font-bold text-red-600">
+              {symbol}{parseFloat(monthlyData.summary.total_expenses || 0).toFixed(2)}
+            </p>
+          </div>
+          <div className="card">
+            <p className="text-sm text-gray-600 dark:text-gray-400">Net Savings</p>
+            <p className="text-2xl font-bold text-primary-600">
+              {symbol}{parseFloat(monthlyData.summary.net_savings || 0).toFixed(2)}
+            </p>
+          </div>
+          <div className="card">
+            <p className="text-sm text-gray-600 dark:text-gray-400">Transactions</p>
+            <p className="text-2xl font-bold">
+              {monthlyData.summary.transaction_count || 0}
+            </p>
+          </div>
         </div>
-        <div className="card">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Total Expenses</p>
-          <p className="text-2xl font-bold text-red-600">
-            {symbol}{parseFloat(monthlyData?.summary?.total_expenses || 0).toFixed(2)}
-          </p>
-        </div>
-        <div className="card">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Net Savings</p>
-          <p className="text-2xl font-bold text-primary-600">
-            {symbol}{parseFloat(monthlyData?.summary?.net_savings || 0).toFixed(2)}
-          </p>
-        </div>
-        <div className="card">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Transactions</p>
-          <p className="text-2xl font-bold">
-            {monthlyData?.summary?.transaction_count || 0}
-          </p>
-        </div>
-      </div>
+      )}
 
       {/* Category Chart */}
       <div className="card">

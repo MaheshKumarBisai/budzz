@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { CurrencyProvider } from './contexts/CurrencyContext';
+import { SettingsProvider } from './contexts/SettingsContext';
 
 // Pages
 import Landing from './pages/Landing';
@@ -32,7 +32,7 @@ function ProtectedRoute({ children }) {
 function App() {
   return (
     <AuthProvider>
-      <CurrencyProvider>
+      <SettingsProvider>
         <BrowserRouter>
           <Toaster position="top-right" />
           <Routes>
@@ -59,7 +59,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </BrowserRouter>
-      </CurrencyProvider>
+      </SettingsProvider>
     </AuthProvider>
   );
 }
