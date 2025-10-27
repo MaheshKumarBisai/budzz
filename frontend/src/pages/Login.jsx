@@ -10,8 +10,21 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const validate = () => {
+    const newErrors = {};
+    if (!email) newErrors.email = 'Email is required';
+    if (!password) newErrors.password = 'Password is required';
+    return newErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     setLoading(true);
     const { success, error } = await login(email, password);
     if (success) {
@@ -30,7 +43,7 @@ export default function Login() {
           <p className="mt-2 text-text-secondary dark:text-dark-text-secondary">Welcome back!</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-card dark:bg-dark-card p-8 rounded-lg shadow-md space-y-6">
+        <form onSubmit={handleSubmit} noValidate className="bg-card dark:bg-dark-card p-8 rounded-lg shadow-md space-y-6">
           {errors.form && <p className="text-red-500 text-sm">{errors.form}</p>}
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Email</label>
@@ -40,9 +53,9 @@ export default function Login() {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
-              required
+              className={`w-full px-4 py-2 border rounded-md bg-transparent ${errors.email ? 'border-red-500' : 'border-border dark:border-dark-border'}`}
             />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
           <div>
@@ -53,9 +66,9 @@ export default function Login() {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
-              required
+              className={`w-full px-4 py-2 border rounded-md bg-transparent ${errors.password ? 'border-red-500' : 'border-border dark:border-dark-border'}`}
             />
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
           </div>
 
           <button
