@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import Button from '../components/Button';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -43,7 +44,7 @@ export default function Login() {
           <p className="mt-2 text-text-secondary dark:text-dark-text-secondary">Welcome back!</p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="bg-card dark:bg-dark-card p-8 rounded-lg shadow-md space-y-6">
+        <form onSubmit={handleSubmit} noValidate className="bg-card dark:bg-dark-card p-8 rounded-2xl shadow-lg space-y-6">
           {errors.form && <p className="text-red-500 text-sm">{errors.form}</p>}
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Email</label>
@@ -71,13 +72,9 @@ export default function Login() {
             {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-primary text-white py-3 rounded-md hover:bg-opacity-90 transition-colors"
-          >
+          <Button type="submit" disabled={loading} className="w-full">
             {loading ? 'Signing in...' : 'Sign In'}
-          </button>
+          </Button>
 
           <p className="text-center text-sm text-text-secondary dark:text-dark-text-secondary">
             Don't have an account?{' '}

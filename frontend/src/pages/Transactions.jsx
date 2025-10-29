@@ -4,6 +4,7 @@ import { Plus, Search, Filter } from 'lucide-react';
 import { expenseAPI, incomeAPI } from '../services/api';
 import TransactionCard from '../components/TransactionCard';
 import FilterModal from '../components/FilterModal';
+import Button from '../components/Button';
 import toast from 'react-hot-toast';
 
 export default function Transactions() {
@@ -50,18 +51,15 @@ export default function Transactions() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Transactions</h1>
-        <button
-          onClick={() => navigate('/transactions/add')}
-          className="btn-primary flex items-center space-x-2"
-        >
+        <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">Transactions</h1>
+        <Button onClick={() => navigate('/transactions/add')} className="flex items-center space-x-2">
           <Plus size={20} />
           <span>Add Transaction</span>
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
-      <div className="card">
+      <div className="bg-card dark:bg-dark-card p-4 rounded-2xl shadow-lg">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
@@ -71,40 +69,29 @@ export default function Transactions() {
                 placeholder="Search transactions..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="input pl-10"
+                className="w-full pl-10 pr-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
               />
             </div>
           </div>
 
           <div className="flex space-x-2">
-            <button
+            <Button
               onClick={() => setType('expense')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                type === 'expense'
-                  ? 'bg-lime-500 text-white'
-                  : 'bg-transparent border border-lime-500 text-lime-500 hover:bg-lime-500 hover:text-white'
-              }`}
+              variant={type === 'expense' ? 'primary' : 'secondary'}
             >
               Expenses
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setType('income')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                type === 'income'
-                  ? 'bg-lime-500 text-white'
-                  : 'bg-transparent border border-lime-500 text-lime-500 hover:bg-lime-500 hover:text-white'
-              }`}
+              variant={type === 'income' ? 'primary' : 'secondary'}
             >
               Incomes
-            </button>
+            </Button>
           </div>
 
-          <button
-            onClick={() => setIsFilterModalOpen(true)}
-            className="btn-secondary"
-          >
+          <Button onClick={() => setIsFilterModalOpen(true)} variant="accent">
             <Filter size={20} />
-          </button>
+          </Button>
         </div>
       </div>
       <FilterModal
@@ -120,7 +107,7 @@ export default function Transactions() {
       {/* Transactions List */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
       ) : transactions.length > 0 ? (
         <div className="space-y-6">
@@ -135,7 +122,7 @@ export default function Transactions() {
             }, {})
           ).map(([date, txns]) => (
             <div key={date}>
-              <h2 className="text-lg font-bold mb-2 text-light-gray">{date}</h2>
+              <h2 className="text-lg font-bold mb-2 text-text-secondary dark:text-dark-text-secondary">{date}</h2>
               <div className="space-y-4">
                 {txns.map((txn) => (
                   <TransactionCard
@@ -150,14 +137,11 @@ export default function Transactions() {
           ))}
         </div>
       ) : (
-        <div className="card text-center py-12">
-          <p className="text-gray-500">No transactions found</p>
-          <button
-            onClick={() => navigate('/transactions/add')}
-            className="btn-primary mt-4"
-          >
+        <div className="bg-card dark:bg-dark-card text-center py-12 rounded-2xl shadow-lg">
+          <p className="text-text-secondary dark:text-dark-text-secondary">No transactions found</p>
+          <Button onClick={() => navigate('/transactions/add')} className="mt-4">
             Add your first transaction
-          </button>
+          </Button>
         </div>
       )}
     </div>

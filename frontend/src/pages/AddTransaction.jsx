@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { expenseAPI, incomeAPI } from '../services/api';
 import toast from 'react-hot-toast';
+import Button from '../components/Button';
 
 const CATEGORIES = {
   expense: [
@@ -78,47 +79,41 @@ export default function AddTransaction() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-3xl font-bold">{id ? 'Edit' : 'Add'} Transaction</h1>
+      <h1 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">{id ? 'Edit' : 'Add'} Transaction</h1>
 
-      <form onSubmit={handleSubmit} className="card space-y-6">
+      <form onSubmit={handleSubmit} className="bg-card dark:bg-dark-card p-8 rounded-2xl shadow-lg space-y-6">
         {/* Type Selection */}
         {!id && (
           <div>
-            <label className="block text-sm font-medium mb-2">Type</label>
+            <label className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Type</label>
             <div className="flex space-x-4">
-              <button
+              <Button
                 type="button"
                 onClick={() => { setType('expense'); setCategoryId(''); }}
-                className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
-                  type === 'expense'
-                    ? 'bg-lime-500 text-white'
-                    : 'bg-transparent border border-lime-500 text-lime-500 hover:bg-lime-500 hover:text-white'
-                }`}
+                variant={type === 'expense' ? 'primary' : 'secondary'}
+                className="flex-1"
               >
                 Expense
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 onClick={() => { setType('income'); setCategoryId(''); }}
-                className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
-                  type === 'income'
-                    ? 'bg-lime-500 text-white'
-                    : 'bg-transparent border border-lime-500 text-lime-500 hover:bg-lime-500 hover:text-white'
-                }`}
+                variant={type === 'income' ? 'primary' : 'secondary'}
+                className="flex-1"
               >
                 Income
-              </button>
+              </Button>
             </div>
           </div>
         )}
 
         {/* Category */}
         <div>
-          <label className="block text-sm font-medium mb-2">Category</label>
+          <label className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Category</label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
-            className="input border border-gray-600 rounded-md"
+            className="w-full px-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
             required
           >
             <option value="">Select category</option>
@@ -132,13 +127,13 @@ export default function AddTransaction() {
 
         {/* Amount */}
         <div>
-          <label className="block text-sm font-medium mb-2">Amount</label>
+          <label className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Amount</label>
           <input
             type="number"
             step="0.01"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="input border border-gray-600 rounded-md"
+            className="w-full px-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
             placeholder="0.00"
             required
           />
@@ -146,11 +141,11 @@ export default function AddTransaction() {
 
         {/* Description */}
         <div>
-          <label className="block text-sm font-medium mb-2">Description</label>
+          <label className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Description</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="input border border-gray-600 rounded-md"
+            className="w-full px-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
             rows="3"
             placeholder="Add notes..."
           />
@@ -158,11 +153,11 @@ export default function AddTransaction() {
 
         {/* Payment Mode */}
         <div>
-          <label className="block text-sm font-medium mb-2">Payment Mode</label>
+          <label className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Payment Mode</label>
           <select
             value={paymentMode}
             onChange={(e) => setPaymentMode(e.target.value)}
-            className="input border border-gray-600 rounded-md"
+            className="w-full px-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
           >
             <option>Cash</option>
             <option>Credit Card</option>
@@ -174,32 +169,29 @@ export default function AddTransaction() {
 
         {/* Date */}
         <div>
-          <label className="block text-sm font-medium mb-2">Date</label>
+          <label className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Date</label>
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
-            className="input border border-gray-600 rounded-md"
+            className="w-full px-4 py-2 border rounded-md bg-transparent border-border dark:border-dark-border"
             required
           />
         </div>
 
         {/* Buttons */}
         <div className="flex space-x-4">
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex-1 btn-primary"
-          >
+          <Button type="submit" disabled={loading} className="flex-1">
             {loading ? 'Saving...' : (id ? 'Update' : 'Add') + ' Transaction'}
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
             onClick={() => navigate('/transactions')}
-            className="flex-1 btn-secondary"
+            variant="secondary"
+            className="flex-1"
           >
             Cancel
-          </button>
+          </Button>
         </div>
       </form>
     </div>
