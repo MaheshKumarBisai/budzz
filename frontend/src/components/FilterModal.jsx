@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from './Button';
 
 const CATEGORIES = {
   expense: [
@@ -33,9 +34,9 @@ const FilterModal = ({ isOpen, onClose, onApply, type }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-dark-gray p-6 rounded-lg w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Filter Transactions</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-card dark:bg-dark-card p-8 rounded-2xl shadow-lg w-full max-w-md">
+        <h2 className="text-xl font-bold mb-4 text-text-primary dark:text-dark-text-primary">Filter Transactions</h2>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Category</label>
@@ -69,8 +70,8 @@ const FilterModal = ({ isOpen, onClose, onApply, type }) => {
           </div>
         </div>
         <div className="flex justify-end space-x-4 mt-6">
-          <button onClick={onClose} className="btn-secondary">Cancel</button>
-          <button onClick={handleApply} className="btn-primary">Apply</button>
+          <Button onClick={onClose} variant="secondary">Cancel</Button>
+          <Button onClick={handleApply} variant="primary">Apply Filters</Button>
         </div>
       </div>
     </div>

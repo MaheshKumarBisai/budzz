@@ -4,6 +4,7 @@ import { Home, DollarSign, BarChart3, Settings, LogOut } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { Sun, Moon } from 'lucide-react';
 import Avatar from './Avatar';
+import Button from './Button';
 
 export default function Layout() {
   const { user, logout } = useAuth();
@@ -24,12 +25,13 @@ export default function Layout() {
   ];
 
   return (
-    <div className="min-h-screen flex bg-background dark:bg-dark-background">
+    <div className="min-h-screen flex ">
       {/* Sidebar */}
       <aside className="w-64 bg-card dark:bg-dark-card flex flex-col shadow-lg">
         <div className="p-4 border-b border-border dark:border-dark-border">
           <Link to="/dashboard">
-            <h1 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">budzz</h1>
+            <img src="../images/logo5.png" alt="Logo" className="w-40 h-15" />
+            {/* <h1 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">Budzz</h1> */}
           </Link>
         </div>
         <nav className="flex-1 p-4 space-y-2">
@@ -61,20 +63,22 @@ export default function Layout() {
               <p className="text-sm text-text-secondary dark:text-dark-text-secondary">{user?.email}</p>
             </div>
           </div>
-          <button
+          <Button
             onClick={handleLogout}
-            className="w-full mt-4 flex items-center justify-center space-x-2 px-4 py-2 text-red-500 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+            variant="accent"
+            className="w-full mt-4 flex items-center justify-center space-x-2"
           >
             <LogOut size={20} />
             <span>Logout</span>
-          </button>
-          <button
+          </Button>
+          {/* <Button
             onClick={toggleTheme}
-            className="w-full mt-4 flex items-center justify-center space-x-2 px-4 py-2 text-text-secondary dark:text-dark-text-secondary border border-border dark:border-dark-border rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            variant="secondary"
+            className="w-full mt-4 flex items-center justify-center space-x-2"
           >
             {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
-          </button>
+          </Button> */}
         </div>
       </aside>
 

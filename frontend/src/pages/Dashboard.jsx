@@ -22,14 +22,15 @@ const Dashboard = () => {
           settingsAPI.getSettings(),
         ]);
 
-        const allTransactions = [...expenses.data.data.expenses, ...incomes.data.data.incomes];
+        const expensesList = expenses.data.data.expenses.map(txn => ({ ...txn, type: 'expense' }));
+        const incomesList = incomes.data.data.incomes.map(txn => ({ ...txn, type: 'income' }));
+        const allTransactions = [...expensesList, ...incomesList];
         allTransactions.sort((a, b) => new Date(b.transaction_date) - new Date(a.transaction_date));
         setTransactions(allTransactions);
 
-        const totalIncome = incomes.data.data.incomes.reduce((acc, curr) => acc + curr.amount, 0);
-        const totalExpenses = expenses.data.data.expenses.reduce((acc, curr) => acc + curr.amount, 0);
-        const budgetLimit = settings.data.data.settings.budget_limit || 0;
-        const remainingBudget = budgetLimit - totalExpenses;
+        const totalIncome = incomes.data.data.incomes.reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
+        const totalExpenses = expenses.data.data.expenses.reduce((acc, curr) => acc + (parseFloat(curr.amount) || 0), 0);
+        const remainingBudget = totalIncome - totalExpenses;
 
         setSummary({
           total_income: totalIncome,
