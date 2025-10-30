@@ -2,7 +2,8 @@ const { query } = require('../config/database');
 
 const createIncome = async (req, res, next) => {
   try {
-    const { category_id, amount, description, payment_mode, transaction_date } = req.body;
+    let { category_id, amount, description, payment_mode, transaction_date } = req.body;
+    if (!category_id) category_id = null;
     const result = await query(
       `INSERT INTO transactions (user_id, category_id, type, amount, description, payment_mode, transaction_date)
        VALUES ($1, $2, 'income', $3, $4, $5, $6) RETURNING *`,
@@ -18,7 +19,7 @@ const getIncomes = async (req, res, next) => {
   try {
     const { page = 1, limit = 10, category_id, start_date, end_date, search } = req.query;
     const offset = (page - 1) * limit;
-    let sql = `SELECT t.*, c.name as category_name FROM transactions t JOIN categories c ON t.category_id = c.id 
+    let sql = `SELECT t.*, c.name as category_name FROM transactions t LEFT JOIN categories c ON t.category_id = c.id 
                WHERE t.user_id = $1 AND t.type = 'income' AND t.deleted_at IS NULL`;
     const params = [req.user.id];
     let idx = 2;

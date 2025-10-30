@@ -31,3 +31,7 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+.qodo/
+CHECKLIST.md
+DEPLOYMENT.md
+CONNECTING.md

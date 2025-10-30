@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import Button from '../components/Button';
 
 export default function Signup() {
   const [name, setName] = useState('');
@@ -42,14 +43,15 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background dark:bg-dark-background px-4">
+    <div className="min-h-screen flex items-center justify-center  px-4">
       <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">budzz</h2>
+        <div className="flex flex-col items-center justify-center">
+          {/* <h2 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">budzz</h2> */}
+          <img src="../images/logo5.png" alt="Logo" className="w-60 h-30 mr-5" />
           <p className="mt-2 text-text-secondary dark:text-dark-text-secondary">Create your account</p>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="bg-card dark:bg-dark-card p-8 rounded-lg shadow-md space-y-6">
+        <form onSubmit={handleSubmit} noValidate className="bg-card dark:bg-dark-card p-8 rounded-2xl shadow-lg space-y-6">
           {errors.form && <p className="text-red-500 text-sm">{errors.form}</p>}
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-2 text-text-primary dark:text-dark-text-primary">Name</label>
@@ -103,13 +105,9 @@ export default function Signup() {
             {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-primary text-white py-3 rounded-md hover:bg-opacity-90 transition-colors"
-          >
+          <Button type="submit" disabled={loading} className="w-full">
             {loading ? 'Creating account...' : 'Sign Up'}
-          </button>
+          </Button>
 
           <p className="text-center text-sm text-text-secondary dark:text-dark-text-secondary">
             Already have an account?{' '}

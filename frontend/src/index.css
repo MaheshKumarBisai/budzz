@@ -6,5 +6,16 @@
   body {
     @apply bg-background text-text-primary dark:bg-dark-background dark:text-dark-text-primary;
     font-family: 'Inter', sans-serif;
+    background-image: url('/images/Background.jpg'); /* Adjust 'my-website-bg.jpg' to your filename */
+    background-size: cover;        /* Ensures the image covers the entire body */
+    background-position: center;   /* Centers the image */
+    background-repeat: no-repeat;  /* Prevents the image from tiling */
+    background-attachment: fixed;  /* Keeps the background fixed when scrolling */
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl;
   }
 }

@@ -46,7 +46,7 @@ const resetPasswordValidation = [
 
 // Transaction validation rules
 const transactionValidation = [
-  body('category_id').isInt({ min: 1 }).withMessage('Valid category is required'),
+  body('category_id').optional({ nullable: true }).isInt({ min: 1 }).withMessage('Valid category is required'),
   body('amount').isFloat({ min: 0.01 }).withMessage('Amount must be greater than 0'),
   body('description').optional().trim().isLength({ max: 500 }).withMessage('Description too long'),
   body('payment_mode').optional().trim().isLength({ max: 50 }),
