@@ -30,7 +30,7 @@ export default function Layout() {
       <aside className="w-64 bg-card dark:bg-dark-card flex flex-col shadow-lg">
         <div className="p-4 border-b border-border dark:border-dark-border">
           <Link to="/dashboard">
-            <img src="../images/logo5.png" alt="Logo" className="w-40 h-15" />
+            <img src="/images/logo5.png" alt="Logo" className="w-40 h-15" />
             {/* <h1 className="text-2xl font-bold text-text-primary dark:text-dark-text-primary">Budzz</h1> */}
           </Link>
         </div>

@@ -42,7 +42,7 @@ export default function Login() {
         <div className="text-center flex flex-col items-center justify-center">
           {/* <h2 className="text-3xl font-bold text-text-primary dark:text-dark-text-primary">budzz</h2> */}
 
-          <img src="../images/logo5.png" alt="Logo" className="w-60 h-30 mr-5" />
+          <img src="/images/logo5.png" alt="Logo" className="w-60 h-30 mr-5" />
 
           <p className="mt-2 text-text-secondary dark:text-dark-text-secondary">Welcome back!</p>
         </div>
