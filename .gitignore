@@ -3,3 +3,5 @@ test-results/
 backend.log
 frontend.log
 .qodo/
+frontend/.gitignore
+backend/.gitignore
