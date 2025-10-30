@@ -35,10 +35,17 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: "Welcome to the Budzz API. Let's get this bread!",
+  });
+});
+
 // Health check route
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
+  res.json({
+    status: 'OK',
     message: 'Smart Budget & Expense Tracker API',
     version: '1.0.0',
     timestamp: new Date().toISOString()
