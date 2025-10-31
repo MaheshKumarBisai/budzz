@@ -3,3 +3,6 @@ test-results/
 backend.log
 frontend.log
 .qodo/
+.vscode/
+.DS_Store
+.env
