@@ -20,7 +20,7 @@ const app = express();
 // Security middleware
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3000',  // Your frontend URL
+  origin: process.env.FRONTEND_URL, // Your frontend URL
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
